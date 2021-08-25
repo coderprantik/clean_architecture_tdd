@@ -1,14 +1,12 @@
 import 'package:clean_architecture_tdd/features/number_trivia/domain/entities/number_trivia.dart';
-import 'package:clean_architecture_tdd/features/number_trivia/domain/reopsitories/number_trivia_repository.dart';
 import 'package:clean_architecture_tdd/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'number_trivia_repository.mocks.dart';
 
-@GenerateMocks([NumberTriviaRepository])
+// @GenerateMocks([NumberTriviaRepository])
 void main() {
   late GetConcreteNumberTrivia usecase;
   late MockNumberTriviaRepository mockNumberTriviaRepository;
