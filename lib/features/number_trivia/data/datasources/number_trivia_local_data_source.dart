@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/number_trivia_model.dart';
 
 abstract class NumberTriviaLocalDataSource {
@@ -9,4 +11,23 @@ abstract class NumberTriviaLocalDataSource {
 
   /// cache NumberTriviaModel
   Future<void> cacheNumberTrivia(NumberTriviaModel numberTriviaModel);
+}
+
+class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
+  final SharedPreferences sharedPreferences;
+
+  NumberTriviaLocalDataSourceImpl({
+    required this.sharedPreferences,
+  });
+
+  @override
+  Future<void> cacheNumberTrivia(NumberTriviaModel numberTriviaModel) async {
+    // TODO: implement cacheNumberTrivia
+  }
+
+  @override
+  Future<NumberTriviaModel> getLastNumberTrivia() {
+    // TODO: implement getLastNumberTrivia
+    throw UnimplementedError();
+  }
 }
