@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:clean_architecture_tdd/core/error/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/number_trivia_model.dart';
@@ -13,6 +16,8 @@ abstract class NumberTriviaLocalDataSource {
   Future<void> cacheNumberTrivia(NumberTriviaModel numberTriviaModel);
 }
 
+const CACHED_TRIVIA_KEY = "CACHED_NUMBER_TRIVIA";
+
 class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   final SharedPreferences sharedPreferences;
 
@@ -21,13 +26,21 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   });
 
   @override
-  Future<void> cacheNumberTrivia(NumberTriviaModel numberTriviaModel) async {
-    // TODO: implement cacheNumberTrivia
+  Future<NumberTriviaModel> getLastNumberTrivia() async {
+    String? cachedTrivia = sharedPreferences.getString(CACHED_TRIVIA_KEY);
+
+    if (cachedTrivia != null) {
+      return NumberTriviaModel.fromRawJson(cachedTrivia);
+    } else {
+      throw CacheException();
+    }
   }
 
   @override
-  Future<NumberTriviaModel> getLastNumberTrivia() {
-    // TODO: implement getLastNumberTrivia
-    throw UnimplementedError();
+  Future<void> cacheNumberTrivia(NumberTriviaModel numberTriviaModel) async {
+    await sharedPreferences.setString(
+      CACHED_TRIVIA_KEY,
+      jsonEncode(numberTriviaModel.toJson()),
+    );
   }
 }
