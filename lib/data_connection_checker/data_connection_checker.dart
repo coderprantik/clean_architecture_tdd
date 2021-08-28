@@ -56,6 +56,7 @@ class DataConnectionChecker {
   /// | 8.8.4.4        | Google     | https://developers.google.com/speed/public-dns/ |
   /// | 208.67.222.222 | OpenDNS    | https://use.opendns.com/                        |
   /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
+  // ignore: non_constant_identifier_names
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
       InternetAddress('1.1.1.1'),

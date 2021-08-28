@@ -20,8 +20,10 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
+// ignore: camel_case_types
 class _FakeResponse_0 extends _i1.Fake implements _i2.Response {}
 
+// ignore: camel_case_types
 class _FakeStreamedResponse_1 extends _i1.Fake implements _i3.StreamedResponse {
 }
 
