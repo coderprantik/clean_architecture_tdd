@@ -20,9 +20,16 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   NumberTriviaRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<NumberTriviaModel> getConcreteNumberTrivia(int number) async {
+  Future<NumberTriviaModel> getConcreteNumberTrivia(int number) =>
+      _getTriviaFromUrl('http://numbersapi.com/$number');
+
+  @override
+  Future<NumberTriviaModel> getRandomNumberTrivia() =>
+      _getTriviaFromUrl('http://numbersapi.com/random');
+
+  Future<NumberTriviaModel> _getTriviaFromUrl(String url) async {
     final response = await client.get(
-      Uri.parse('http://numbersapi.com/$number'),
+      Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -31,11 +38,5 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
     } else {
       throw ServerException();
     }
-  }
-
-  @override
-  Future<NumberTriviaModel> getRandomNumberTrivia() {
-    // TODO: implement getRandomNumberTrivia
-    throw UnimplementedError();
   }
 }
