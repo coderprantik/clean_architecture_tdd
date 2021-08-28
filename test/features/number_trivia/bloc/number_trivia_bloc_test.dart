@@ -58,15 +58,12 @@ void main() {
         // arrange
         when(mockInputConverter.stringToUnsignedInteger(any))
             .thenReturn(Left(InvalidInputFailure()));
-        // TODO: This test is not passing, hint: [bloc.state]
-        // assert later
-        final expected = [
-          Empty(),
-          Error(msg: INVALID_INPUT_FAILURE_MESSAGE),
-        ];
-        expectLater(bloc.state, emitsInOrder(expected));
         // act
         bloc.add(GetTriviaForConcreteNumber(tNumberString));
+        // waiting for emit new state
+        await bloc.stream.any((_) => true);
+        // assert later
+        expect(bloc.state, equals(Error(msg: INVALID_INPUT_FAILURE_MESSAGE)));
       },
     );
   });
