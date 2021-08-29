@@ -4,7 +4,7 @@
 
 import 'dart:async' as _i3;
 
-import 'package:clean_architecture_tdd/data_connection_checker/data_connection_checker.dart'
+import 'package:connection_checker/connection_checker.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -27,7 +27,7 @@ class _FakeAddressCheckResult_1 extends _i1.Fake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockDataConnectionChecker extends _i1.Mock
-    implements _i2.DataConnectionChecker {
+    implements _i2.ConnectionChecker {
   MockDataConnectionChecker() {
     _i1.throwOnMissingStub(this);
   }
@@ -58,16 +58,16 @@ class MockDataConnectionChecker extends _i1.Mock
       (super.noSuchMethod(Invocation.getter(#hasConnection),
           returnValue: Future<bool>.value(false)) as _i3.Future<bool>);
   @override
-  _i3.Future<_i2.DataConnectionStatus> get connectionStatus =>
+  _i3.Future<_i2.ConnectionStatus> get connectionStatus =>
       (super.noSuchMethod(Invocation.getter(#connectionStatus),
-              returnValue: Future<_i2.DataConnectionStatus>.value(
-                  _i2.DataConnectionStatus.disconnected))
-          as _i3.Future<_i2.DataConnectionStatus>);
+              returnValue: Future<_i2.ConnectionStatus>.value(
+                  _i2.ConnectionStatus.disconnected))
+          as _i3.Future<_i2.ConnectionStatus>);
   @override
-  _i3.Stream<_i2.DataConnectionStatus> get onStatusChange =>
+  _i3.Stream<_i2.ConnectionStatus> get onStatusChange =>
       (super.noSuchMethod(Invocation.getter(#onStatusChange),
-              returnValue: Stream<_i2.DataConnectionStatus>.empty())
-          as _i3.Stream<_i2.DataConnectionStatus>);
+              returnValue: Stream<_i2.ConnectionStatus>.empty())
+          as _i3.Stream<_i2.ConnectionStatus>);
   @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)

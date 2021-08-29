@@ -148,6 +148,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  connection_checker:
+    dependency: "direct main"
+    description:
+      path: connection_checker
+      ref: master
+      resolved-ref: "70f701834d9923814910afe9afc8bf7313379fc1"
+      url: "https://github.com/coderprantik/flutter-packages.git"
+    source: git
+    version: "0.0.1"
   convert:
     dependency: transitive
     description:

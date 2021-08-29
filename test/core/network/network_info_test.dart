@@ -2,7 +2,7 @@ import 'package:clean_architecture_tdd/core/network/network_info.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'data_connection_checker.mocks.dart';
+import 'connection_checker.mocks.dart';
 
 // @GenerateMocks([DataConnectionChecker])
 void main() {
@@ -16,7 +16,7 @@ void main() {
 
   group('isConnected', () {
     test(
-      'should forward the call to DataConnectionChecker.hasConnection',
+      'should forward the call to ConnectionChecker.hasConnection',
       () async {
         // arrange
         when(mockDataConnectionChecker.hasConnection)
