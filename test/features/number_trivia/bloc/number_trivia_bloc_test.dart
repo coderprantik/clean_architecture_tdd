@@ -1,4 +1,5 @@
 // @GenerateMocks([GetConcreteNumberTrivia, GetRandomNumberTrivia, InputConverter])
+import 'package:clean_architecture_tdd/core/error/failure.dart';
 import 'package:clean_architecture_tdd/core/util/input_converter.dart';
 import 'package:clean_architecture_tdd/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture_tdd/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
@@ -26,6 +27,15 @@ void main() {
       inputConverter: mockInputConverter,
     );
   });
+
+  Future<List<NumberTriviaState>> states({required Type endState}) async {
+    List<NumberTriviaState> _states = [bloc.state];
+    await bloc.stream.every((state) {
+      _states.add(state);
+      return state.runtimeType != endState; // end if false;
+    });
+    return _states;
+  }
 
   test(
     'should initialState should be Empty',
@@ -73,7 +83,7 @@ void main() {
         // act
         bloc.add(GetTriviaForConcreteNumber(tNumberString));
         // waiting for emit new state
-        await bloc.stream.any((_) => true);
+        await bloc.stream.every((_) => false);
         // assert later
         expect(bloc.state, equals(Error(msg: INVALID_INPUT_FAILURE_MESSAGE)));
       },
@@ -102,16 +112,56 @@ void main() {
         // act
         bloc.add(GetTriviaForConcreteNumber(tNumberString));
         // await bloc.stream.any((_) => false);
-        final actual = [bloc.state];
-        await bloc.stream.every((state) {
-          actual.add(state);
-          return !(state is Loaded);
-        });
+        final actual = await states(endState: Loaded);
         // assert
         final expected = [
           Empty(),
           Loading(),
           Loaded(trivia: tNumberTrivia),
+        ];
+        // expect(bloc.state, equals(Loaded(trivia: tNumberTrivia)));
+        expect(actual, equals(expected));
+      },
+    );
+    test(
+      'should emit [Loading, Error] when getting data is failed',
+      () async {
+        // arrange
+        setUpMockInputConverterSuccess();
+        when(mockGetConcreteNumberTrivia(any))
+            .thenAnswer((_) async => Left(ServerFailure()));
+        // act
+        bloc.add(GetTriviaForConcreteNumber(tNumberString));
+        final actual = [bloc.state];
+        await bloc.stream.every((state) {
+          actual.add(state);
+          return !(state is Error);
+        });
+        // assert
+        final expected = [
+          Empty(),
+          Loading(),
+          Error(msg: SERVER_FAILURE_MESSAGE),
+        ];
+        // expect(bloc.state, equals(Loaded(trivia: tNumberTrivia)));
+        expect(actual, equals(expected));
+      },
+    );
+    test(
+      'should emit [Loading, Error] with proper message for ther when getting data is failed',
+      () async {
+        // arrange
+        setUpMockInputConverterSuccess();
+        when(mockGetConcreteNumberTrivia(any))
+            .thenAnswer((_) async => Left(CacheFailure()));
+        // act
+        bloc.add(GetTriviaForConcreteNumber(tNumberString));
+        final actual = await states(endState: Error);
+        // assert
+        final expected = [
+          Empty(),
+          Loading(),
+          Error(msg: CACHE_FAILURE_MESSAGE),
         ];
         // expect(bloc.state, equals(Loaded(trivia: tNumberTrivia)));
         expect(actual, equals(expected));
