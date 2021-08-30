@@ -153,10 +153,10 @@ packages:
     description:
       path: connection_checker
       ref: master
-      resolved-ref: "70f701834d9923814910afe9afc8bf7313379fc1"
+      resolved-ref: "8e2617f359862de67f319e736fcd5ab256bdf73f"
       url: "https://github.com/coderprantik/flutter-packages.git"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   convert:
     dependency: transitive
     description:

@@ -13,46 +13,46 @@ import 'features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
 
-final sl = GetIt.instance;
+final locator = GetIt.instance;
 Future<void> init() async {
   //! Features - Number Trivia
-  sl.registerFactory(
+  locator.registerFactory(
     () => NumberTriviaBloc(
-      getConcreteNumberTrivia: sl(),
-      getRandomNumberTrivia: sl(),
-      inputConverter: sl(),
+      getConcreteNumberTrivia: locator(),
+      getRandomNumberTrivia: locator(),
+      inputConverter: locator(),
     ),
   );
 
   // Use cases
-  sl.registerLazySingleton(() => GetConcreteNumberTrivia(sl()));
-  sl.registerLazySingleton(() => GetRandomNumberTrivia(sl()));
+  locator.registerLazySingleton(() => GetConcreteNumberTrivia(locator()));
+  locator.registerLazySingleton(() => GetRandomNumberTrivia(locator()));
 
   // Repository
-  sl.registerLazySingleton<NumberTriviaRepository>(
+  locator.registerLazySingleton<NumberTriviaRepository>(
     () => NumberTriviaRepositoryImpl(
-      remoteDataSource: sl(),
-      localDataSource: sl(),
-      networkInfo: sl(),
+      remoteDataSource: locator(),
+      localDataSource: locator(),
+      networkInfo: locator(),
     ),
   );
 
   // Data sources
-  sl.registerLazySingleton<NumberTriviaRemoteDataSource>(
-    () => NumberTriviaRemoteDataSourceImpl(client: sl()),
+  locator.registerLazySingleton<NumberTriviaRemoteDataSource>(
+    () => NumberTriviaRemoteDataSourceImpl(client: locator()),
   );
 
-  sl.registerLazySingleton<NumberTriviaLocalDataSource>(
-    () => NumberTriviaLocalDataSourceImpl(sharedPreferences: sl()),
+  locator.registerLazySingleton<NumberTriviaLocalDataSource>(
+    () => NumberTriviaLocalDataSourceImpl(sharedPreferences: locator()),
   );
 
   //! Core
-  sl.registerLazySingleton(() => InputConverter());
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  locator.registerLazySingleton(() => InputConverter());
+  locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(locator()));
 
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => ConnectionChecker());
+  locator.registerLazySingleton(() => sharedPreferences);
+  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => ConnectionChecker());
 }
