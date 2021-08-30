@@ -1,11 +1,11 @@
-import 'package:clean_architecture_tdd/data_connection_checker/data_connection_checker.dart';
+import 'package:connection_checker/connection_checker.dart';
 
 abstract class NetworkInfo {
   Future<bool> get isConnected;
 }
 
 class NetworkInfoImpl implements NetworkInfo {
-  final DataConnectionChecker connectionChecker;
+  final ConnectionChecker connectionChecker;
 
   NetworkInfoImpl(this.connectionChecker);
 
