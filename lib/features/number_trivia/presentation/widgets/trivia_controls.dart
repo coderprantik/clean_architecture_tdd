@@ -1,4 +1,3 @@
-import 'package:clean_architecture_tdd/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,8 +55,6 @@ class TriviaControls extends StatelessWidget {
 
   NumberTriviaBloc bloc(BuildContext context) =>
       BlocProvider.of<NumberTriviaBloc>(context);
-
-  NumberTriviaBloc get _bloc => locator<NumberTriviaBloc>();
 
   void addConcrete(context) {
     bloc(context).add(GetTriviaForConcreteNumber(controller.text));

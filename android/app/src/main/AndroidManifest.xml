@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.prantik.clean_architecture_tdd">
    <application
-        android:label="clean_architecture_tdd"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Trivia"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
