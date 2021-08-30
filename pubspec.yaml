@@ -23,6 +23,7 @@ dependencies:
       url:  https://github.com/coderprantik/flutter-packages.git
       path: connection_checker
       ref: master
+  get: ^4.3.8
 
 dev_dependencies:
   build_runner: ^2.1.1
