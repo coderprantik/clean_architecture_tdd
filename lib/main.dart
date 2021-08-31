@@ -1,8 +1,9 @@
-import 'package:clean_architecture_tdd/core/router/app_pages.dart';
-import 'package:clean_architecture_tdd/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import 'core/router/app_pages.dart';
+import 'injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

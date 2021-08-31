@@ -1,8 +1,7 @@
-import 'package:clean_architecture_tdd/features/number_trivia/presentation/controller/number_trivia_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
+import '../controller/number_trivia_controller.dart';
 import 'widgets.dart';
 
 class TriviaControls extends GetView<NumberTriviaController> {

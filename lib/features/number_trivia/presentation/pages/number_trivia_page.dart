@@ -1,7 +1,8 @@
-import 'package:clean_architecture_tdd/features/number_trivia/presentation/controller/number_trivia_controller.dart';
-import 'package:clean_architecture_tdd/features/number_trivia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../controller/number_trivia_controller.dart';
+import '../widgets/widgets.dart';
 
 class NumberTriviaPage extends GetView<NumberTriviaController> {
   const NumberTriviaPage({Key? key}) : super(key: key);

@@ -1,4 +1,3 @@
-import 'package:clean_architecture_tdd/features/number_trivia/presentation/controller/number_trivia_controller.dart';
 import 'package:connection_checker/connection_checker.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -13,13 +12,11 @@ import 'features/number_trivia/data/repositories/number_trivia_repository_impl.d
 import 'features/number_trivia/domain/reopsitories/number_trivia_repository.dart';
 import 'features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'features/number_trivia/domain/usecases/get_random_number_trivia.dart';
+import 'features/number_trivia/presentation/controller/number_trivia_controller.dart';
 
 final locator = GetIt.instance;
 
 Future<void> setUp() async {
-  //! Features - Number Trivia Controller
-  locator.registerFactory(() => NumberTriviaController());
-
   // Use cases
   locator.registerLazySingleton(() => GetConcreteNumberTrivia(locator()));
   locator.registerLazySingleton(() => GetRandomNumberTrivia(locator()));
@@ -51,4 +48,12 @@ Future<void> setUp() async {
   locator.registerLazySingleton(() => sharedPreferences);
   locator.registerLazySingleton(() => http.Client());
   locator.registerLazySingleton(() => ConnectionChecker());
+
+  //! Controllers
+  Get.lazyPut(() => NumberTriviaController());
+  Get.find<NumberTriviaController>().init(
+    concrete: locator(),
+    random: locator(),
+    inputConverter: locator(),
+  );
 }
