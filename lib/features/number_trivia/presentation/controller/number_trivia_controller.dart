@@ -1,5 +1,7 @@
 import 'package:clean_architecture_tdd/core/error/exceptions.dart';
 import 'package:clean_architecture_tdd/core/error/failure.dart';
+import 'package:clean_architecture_tdd/core/usecases/usecase.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 
@@ -37,17 +39,27 @@ class NumberTriviaController extends GetxController {
       (number) async {
         state.value = Loading();
         final failureOfTrivia = await _concrete(Params(number: number));
-        failureOfTrivia.fold(
-          (failure) {
-            return state.value = Error(message: _getMessage(failure));
-          },
-          (trivia) => state.value = Loaded(trivia: trivia),
-        );
+        state.value = _eitherErrorOrLoadedState(failureOfTrivia);
       },
     );
   }
 
-  String _getMessage(Failure failure) {
+  Future<void> getRandomNumberTrivia() async {
+    state.value = Loading();
+    final failureOfTrivia = await _random(NoParams());
+    state.value = _eitherErrorOrLoadedState(failureOfTrivia);
+  }
+
+  NumberTriviaState _eitherErrorOrLoadedState(
+    Either<Failure, NumberTrivia> failureOfTrivia,
+  ) {
+    return failureOfTrivia.fold(
+      (failure) => Error(message: _mapFailureToMessage(failure)),
+      (trivia) => Loaded(trivia: trivia),
+    );
+  }
+
+  String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerException:
         return SERVER_FAILURE_MESSAGE;
