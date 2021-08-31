@@ -17,14 +17,9 @@ import 'features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 final locator = GetIt.instance;
 
 Future<void> setUp() async {
-  //! Features - Number Trivia
-  Get.lazyPut(() => NumberTriviaController());
-  Get.find<NumberTriviaController>().init(
-    concrete: locator(),
-    random: locator(),
-    inputConverter: locator(),
-  );
-  
+  //! Features - Number Trivia Controller
+  locator.registerFactory(() => NumberTriviaController());
+
   // Use cases
   locator.registerLazySingleton(() => GetConcreteNumberTrivia(locator()));
   locator.registerLazySingleton(() => GetRandomNumberTrivia(locator()));
