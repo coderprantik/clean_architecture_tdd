@@ -1,3 +1,4 @@
+import 'package:clean_architecture_tdd/core/error/failure.dart';
 import 'package:clean_architecture_tdd/core/util/input_converter.dart';
 import 'package:clean_architecture_tdd/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture_tdd/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
@@ -51,13 +52,16 @@ void main() {
         when(mockInputConverter.stringToUnsignedInteger(any))
             .thenReturn(Right(tNumberParsed));
 
+    void setUpMockGetConcreteNumberTriviaSuccess() =>
+        when(mockGetConcreteNumberTrivia(any))
+            .thenAnswer((_) async => Right(tNumberTrivia));
+
     test(
       'should call the InputConverter to validate and convert the string to unsigned integer',
       () async {
         // arrange
         setUpMockInputConverterSuccess();
-        // when(mockGetConcreteNumberTrivia(any))
-        //     .thenAnswer((_) async => Right(tNumberTrivia));
+        setUpMockGetConcreteNumberTriviaSuccess();
         // act
         await controller.getConcreteNumberTrivia(tNumberString);
         // assert
@@ -84,12 +88,61 @@ void main() {
       () async {
         // arrange
         setUpMockInputConverterSuccess();
-        when(mockGetConcreteNumberTrivia(any))
-            .thenAnswer((_) async => Right(tNumberTrivia));
+        setUpMockGetConcreteNumberTriviaSuccess();
         // act
         await controller.getConcreteNumberTrivia(tNumberString);
         // assert
         verify(mockGetConcreteNumberTrivia(Params(number: tNumberParsed)));
+      },
+    );
+
+    test(
+      'should show [Loading, Loaded] states when data is gotten successfully',
+      () async {
+        // arrange
+        setUpMockInputConverterSuccess();
+        setUpMockGetConcreteNumberTriviaSuccess();
+        // act
+        final states = [];
+        controller.state.listen((state) => states.add(state.runtimeType));
+        await controller.getConcreteNumberTrivia(tNumberString);
+        // assert
+        final expected = [Loading, Loaded];
+        expect(states, expected);
+      },
+    );
+    test(
+      'should show [Loading, Error] states when getting data is failed',
+      () async {
+        // arrange
+        setUpMockInputConverterSuccess();
+        when(mockGetConcreteNumberTrivia(any)).thenAnswer(
+          (_) async => Left(ServerFailure()),
+        );
+        // act
+        final states = [];
+        controller.state.listen((state) => states.add(state.runtimeType));
+        await controller.getConcreteNumberTrivia(tNumberString);
+        // assert
+        final expected = [Loading, Error];
+        expect(states, expected);
+      },
+    );
+    test(
+      'should show proper message when getting data is failed',
+      () async {
+        // arrange
+        setUpMockInputConverterSuccess();
+        when(mockGetConcreteNumberTrivia(any)).thenAnswer(
+          (_) async => Left(CacheFailure()),
+        );
+        // act
+        final states = [];
+        controller.state.listen((state) => states.add(state));
+        await controller.getConcreteNumberTrivia(tNumberString);
+        // assert
+        final expected = [Loading(), Error(message: CACHE_FAILURE_MESSAGE)];
+        expect(states, expected);
       },
     );
   });
