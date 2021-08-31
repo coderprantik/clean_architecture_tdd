@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connection_checker/connection_checker.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -68,6 +71,33 @@ class NumberTriviaController extends GetxController {
       default:
         return 'Unexpected Error!';
     }
+  }
+
+  StreamSubscription<ConnectionStatus>? statusChangeListener;
+
+  @override
+  void onReady() {
+    super.onReady();
+    bool first = true;
+    statusChangeListener = ConnectionChecker().onStatusChange.listen((status) {
+      if (first) {
+        first = false;
+        return;
+      }
+      Get.snackbar(
+        status == ConnectionStatus.connected
+            ? "Back online"
+            : "No internet connection",
+        "Data connection changed",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    statusChangeListener?.cancel();
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ControlButton extends StatelessWidget {
   const ControlButton({
@@ -14,7 +15,7 @@ class ControlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onPressed,
-      color: Colors.green,
+      color: Theme.of(context).accentColor,
       height: 60,
       child: child,
       shape: RoundedRectangleBorder(

@@ -24,9 +24,10 @@ class TriviaControls extends GetView<NumberTriviaController> {
             decoration: InputDecoration(
               hintText: 'Type your number here...',
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
+            textInputAction: TextInputAction.search,
           ),
         ),
         const SizedBox(width: 16),
